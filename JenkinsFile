@@ -1,0 +1,29 @@
+library(
+  identifier: 'jenkins-shared-library',
+  retriever: modernSCM(
+    [
+    $class       : 'GitSCMSource',
+    remote       : 'https://github.com/barishandcloud/jenlib.git'
+    ]
+  )
+)
+
+pipeline {
+  parameters {
+    choice(
+      name: 'ENV_NAME',
+      description: 'Select an environment to deploy to',
+      choices: environmentNames('fe')
+    )
+  }
+
+  stages {
+    stage('Load CI configuration') {
+      steps {
+        script {
+          echo environmentNames('fe')
+        }
+      }
+    }
+  }
+}
